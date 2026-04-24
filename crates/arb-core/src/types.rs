@@ -55,6 +55,7 @@ impl fmt::Display for NormalizedSymbol {
 pub enum BuildMode {
     Paper,
     Observe,
+    Test,
     Live,
 }
 
