@@ -1,0 +1,92 @@
+[package]
+name = "arb-bot"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+arb-core       = { workspace = true }
+arb-book       = { workspace = true }
+arb-adapters   = { workspace = true }
+arb-engine     = { workspace = true }
+arb-exec       = { workspace = true }
+arb-log        = { workspace = true }
+arb-metrics    = { workspace = true }
+arb-recording  = { workspace = true }
+arb-config     = { workspace = true }
+
+[dev-dependencies]
+tokio          = { workspace = true }
+ordered-float  = { workspace = true }
+tempfile       = { workspace = true }
+crc32fast     = { workspace = true }
+
+[workspace]
+members = [
+    "crates/arb-core",
+    "crates/arb-book",
+    "crates/arb-adapters",
+    "crates/arb-engine",
+    "crates/arb-exec",
+    "crates/arb-log",
+    "crates/arb-metrics",
+    "crates/arb-recording",
+    "crates/arb-config",
+    "crates/arb-live",
+    "crates/arb-train",
+    "crates/arb-telegram",
+    "crates/arb-bin",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.78"
+authors = ["arb-bot contributors"]
+license = "MIT"
+
+[workspace.dependencies]
+tokio              = { version = "1.37", features = ["full"] }
+tokio-tungstenite  = { version = "0.23", features = ["rustls-tls-webpki-roots"] }
+reqwest            = { version = "0.12", features = ["json","rustls-tls"], default-features = false }
+serde              = { version = "1", features = ["derive"] }
+serde_json         = "1"
+serde_yaml         = "0.9"
+anyhow             = "1"
+thiserror          = "1"
+tracing            = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter","json"] }
+futures            = "0.3"
+async-trait        = "0.1"
+hmac               = "0.12"
+sha2               = "0.10"
+base64             = "0.22"
+hex                = "0.4"
+crc32fast          = "1.4"
+flume              = "0.11"
+ordered-float      = { version = "4", features = ["serde"] }
+clap               = { version = "4", features = ["derive","env"] }
+prometheus         = "0.13"
+axum               = "0.7"
+hyper              = "1"
+chrono             = { version = "0.4", features = ["serde"] }
+pretty_assertions  = "1"
+tempfile           = "3"
+wiremock           = "0.6"
+
+# internal crates
+arb-core       = { path = "crates/arb-core" }
+arb-book       = { path = "crates/arb-book" }
+arb-adapters   = { path = "crates/arb-adapters" }
+arb-engine     = { path = "crates/arb-engine" }
+arb-exec       = { path = "crates/arb-exec" }
+arb-log        = { path = "crates/arb-log" }
+arb-metrics    = { path = "crates/arb-metrics" }
+arb-recording  = { path = "crates/arb-recording" }
+arb-config     = { path = "crates/arb-config" }
+arb-bin        = { path = "crates/arb-bin" }
+arb-live       = { path = "crates/arb-live" }
+arb-train      = { path = "crates/arb-train" }
+
+arb-telegram      = { path = "crates/arb-telegram" }

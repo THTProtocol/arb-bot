@@ -1,0 +1,391 @@
+    Updating crates.io index
+error: failed to select a version for `arb-core`.
+    ... required by package `arb-bin v0.1.0 (/home/kasparov/arb_bot/crates/arb-bin)`
+versions that meet the requirements `*` are: 0.1.0
+
+package `arb-bin` depends on `arb-core` with feature `live` but `arb-core` does not have that feature.
+
+
+failed to select a version for `arb-core` which could resolve this conflict
+    Updating crates.io index
+     Locking 274 packages to latest compatible versions
+      Adding axum v0.7.9 (available: v0.8.9)
+      Adding flume v0.11.1 (available: v0.12.0)
+      Adding generic-array v0.14.7 (available: v0.14.9)
+      Adding hmac v0.12.1 (available: v0.13.0)
+      Adding ordered-float v4.6.0 (available: v5.3.0)
+      Adding prometheus v0.13.4 (available: v0.14.0)
+      Adding reqwest v0.12.28 (available: v0.13.2)
+      Adding sha2 v0.10.9 (available: v0.11.0)
+      Adding thiserror v1.0.69 (available: v2.0.18)
+      Adding tokio-tungstenite v0.23.1 (available: v0.29.0)
+ Downloading crates ...
+  Downloaded nanorand v0.7.0
+  Downloaded ordered-float v4.6.0
+  Downloaded flume v0.11.1
+   Compiling proc-macro2 v1.0.106
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.24
+   Compiling libc v0.2.186
+    Checking cfg-if v1.0.4
+    Checking pin-project-lite v0.2.17
+    Checking once_cell v1.21.4
+    Checking futures-core v0.3.32
+    Checking scopeguard v1.2.0
+    Checking smallvec v1.15.1
+    Checking futures-sink v0.3.32
+    Checking itoa v1.0.18
+    Checking log v0.4.29
+    Checking bytes v1.11.1
+   Compiling serde_core v1.0.228
+   Compiling parking_lot_core v0.9.12
+    Checking memchr v2.8.0
+    Checking lock_api v0.4.14
+   Compiling serde v1.0.228
+    Checking stable_deref_trait v1.2.1
+    Checking futures-channel v0.3.32
+   Compiling autocfg v1.5.0
+   Compiling thiserror v1.0.69
+    Checking tracing-core v0.1.36
+    Checking futures-task v0.3.32
+   Compiling shlex v1.3.0
+    Checking slab v0.4.12
+   Compiling find-msvc-tools v0.1.9
+    Checking futures-io v0.3.32
+   Compiling version_check v0.9.5
+   Compiling zmij v1.0.21
+   Compiling anyhow v1.0.102
+    Checking subtle v2.6.1
+    Checking http v1.4.0
+   Compiling cc v1.2.60
+   Compiling httparse v1.10.1
+    Checking zeroize v1.8.2
+   Compiling num-traits v0.2.19
+    Checking spin v0.9.8
+   Compiling generic-array v0.14.7
+    Checking rustls-pki-types v1.14.0
+    Checking typenum v1.20.0
+   Compiling serde_json v1.0.149
+    Checking iana-time-zone v0.1.65
+    Checking untrusted v0.9.0
+    Checking percent-encoding v2.3.2
+    Checking writeable v0.6.3
+    Checking tower-service v0.3.3
+    Checking litemap v0.8.2
+   Compiling icu_normalizer_data v2.2.0
+    Checking utf8_iter v1.0.4
+   Compiling rustls v0.23.39
+   Compiling icu_properties_data v2.2.0
+   Compiling zerocopy v0.8.48
+    Checking try-lock v0.2.5
+    Checking sync_wrapper v1.0.2
+    Checking ryu v1.0.23
+    Checking atomic-waker v1.1.2
+    Checking want v0.3.1
+    Checking tower-layer v0.3.3
+    Checking httpdate v1.0.3
+    Checking form_urlencoded v1.2.2
+    Checking ipnet v2.12.0
+    Checking base64 v0.22.1
+    Checking webpki-roots v1.0.7
+   Compiling rustversion v1.0.22
+    Checking cpufeatures v0.2.17
+   Compiling protobuf v2.28.0
+    Checking lazy_static v1.5.0
+    Checking http-body v1.0.1
+    Checking utf8parse v0.2.2
+    Checking iri-string v0.7.12
+    Checking data-encoding v2.10.0
+    Checking anstyle-parse v1.0.0
+    Checking http-body-util v0.1.3
+    Checking regex-syntax v0.8.10
+    Checking byteorder v1.5.0
+    Checking equivalent v1.0.2
+   Compiling crc32fast v1.5.0
+    Checking ordered-float v4.6.0
+    Checking utf-8 v0.7.6
+   Compiling syn v2.0.117
+    Checking mime v0.3.17
+    Checking is_terminal_polyfill v1.70.2
+    Checking anstyle v1.0.14
+    Checking anstyle-query v1.1.5
+    Checking bitflags v2.11.1
+    Checking hashbrown v0.17.0
+   Compiling prometheus v0.13.4
+    Checking colorchoice v1.0.5
+    Checking webpki-roots v0.26.11
+    Checking anstream v1.0.0
+   Compiling heck v0.5.0
+    Checking clap_lex v1.1.0
+    Checking getrandom v0.2.17
+    Checking errno v0.3.14
+    Checking socket2 v0.6.3
+    Checking mio v1.2.0
+    Checking nanorand v0.7.0
+    Checking rand_core v0.6.4
+    Checking parking_lot v0.12.5
+    Checking signal-hook-registry v1.4.8
+    Checking crypto-common v0.1.7
+    Checking block-buffer v0.10.4
+    Checking strsim v0.11.1
+    Checking flume v0.11.1
+    Checking unsafe-libyaml v0.2.11
+    Checking matchit v0.7.3
+   Compiling ring v0.17.14
+    Checking digest v0.10.7
+    Checking fnv v1.0.7
+    Checking indexmap v2.14.0
+    Checking clap_builder v4.6.0
+    Checking sharded-slab v0.1.7
+    Checking tracing-log v0.2.0
+    Checking thread_local v1.1.9
+    Checking sha1 v0.10.6
+    Checking hmac v0.12.1
+    Checking sha2 v0.10.9
+    Checking regex-automata v0.4.14
+    Checking nu-ansi-term v0.50.3
+    Checking hex v0.4.3
+    Checking serde_path_to_error v0.1.20
+    Checking matchers v0.2.0
+    Checking ppv-lite86 v0.2.21
+   Compiling synstructure v0.13.2
+    Checking rand_chacha v0.3.1
+    Checking rand v0.8.6
+   Compiling tracing-attributes v0.1.31
+   Compiling serde_derive v1.0.228
+   Compiling zerofrom-derive v0.1.7
+   Compiling tokio-macros v2.7.0
+   Compiling yoke-derive v0.8.2
+   Compiling thiserror-impl v1.0.69
+   Compiling zerovec-derive v0.11.3
+   Compiling futures-macro v0.3.32
+   Compiling displaydoc v0.2.5
+   Compiling async-trait v0.1.89
+   Compiling clap_derive v4.6.1
+    Checking tokio v1.52.1
+    Checking futures-util v0.3.32
+    Checking zerofrom v0.1.7
+    Checking rustls-webpki v0.103.13
+    Checking yoke v0.8.2
+    Checking tracing v0.1.44
+    Checking zerovec v0.11.6
+    Checking zerotrie v0.2.4
+    Checking clap v4.6.1
+    Checking tinystr v0.8.3
+    Checking potential_utf v0.1.5
+    Checking icu_collections v2.2.0
+    Checking icu_locale_core v2.2.0
+    Checking icu_provider v2.2.0
+    Checking icu_properties v2.2.0
+    Checking icu_normalizer v2.2.0
+    Checking chrono v0.4.44
+    Checking serde_urlencoded v0.7.1
+    Checking tracing-serde v0.2.0
+    Checking serde_yaml v0.9.34+deprecated
+    Checking tracing-subscriber v0.3.23
+    Checking futures-executor v0.3.32
+    Checking axum-core v0.4.5
+    Checking futures v0.3.32
+    Checking idna_adapter v1.2.1
+    Checking idna v1.1.0
+    Checking url v2.5.8
+    Checking arb-core v0.1.0 (/home/kasparov/arb_bot/crates/arb-core)
+    Checking tungstenite v0.23.0
+warning: unused import: `anyhow::Context`
+ --> crates/arb-core/src/symbol_map.rs:2:5
+  |
+2 | use anyhow::Context;
+  |     ^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+ --> crates/arb-core/src/error.rs:7:18
+  |
+7 |     Http(#[from] reqwest::Error),
+  |                  ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+  |
+  = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `serde_json` in this scope
+  --> crates/arb-core/src/error.rs:11:18
+   |
+11 |     Json(#[from] serde_json::Error),
+   |                  ^^^^^^^^^^ use of unresolved module or unlinked crate `serde_json`
+   |
+   = help: if you wanted to use a crate named `serde_json`, use `cargo add serde_json` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `serde_yaml` in this scope
+  --> crates/arb-core/src/error.rs:13:18
+   |
+13 |     Yaml(#[from] serde_yaml::Error),
+   |                  ^^^^^^^^^^ use of unresolved module or unlinked crate `serde_yaml`
+   |
+   = help: if you wanted to use a crate named `serde_yaml`, use `cargo add serde_yaml` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `reqwest` in this scope
+  --> crates/arb-core/src/symbol_map.rs:37:41
+   |
+37 |     pub async fn fetch(reqwest_client: &reqwest::Client) -> anyhow::Result<Self> {
+   |                                         ^^^^^^^ use of unresolved module or unlinked crate `reqwest`
+   |
+   = help: if you wanted to use a crate named `reqwest`, use `cargo add reqwest` to add it to your `Cargo.toml`
+
+For more information about this error, try `rustc --explain E0433`.
+warning: `arb-core` (lib) generated 1 warning
+error: could not compile `arb-core` (lib) due to 4 previous errors; 1 warning emitted
+warning: build failed, waiting for other jobs to finish...
+    Checking hyper v1.9.0
+    Checking tower v0.5.3
+    Checking tokio-rustls v0.26.4
+    Checking tokio-tungstenite v0.23.1
+    Checking tower-http v0.6.8
+    Checking hyper-util v0.1.20
+    Checking hyper-rustls v0.27.9
+    Checking axum v0.7.9
+    Checking reqwest v0.12.28
+    Checking arb-core v0.1.0 (/home/kasparov/arb_bot/crates/arb-core)
+warning: unused import: `anyhow::Context`
+ --> crates/arb-core/src/symbol_map.rs:2:5
+  |
+2 | use anyhow::Context;
+  |     ^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `arb-core` (lib) generated 1 warning (run `cargo fix --lib -p arb-core` to apply 1 suggestion)
+    Checking arb-book v0.1.0 (/home/kasparov/arb_bot/crates/arb-book)
+    Checking arb-config v0.1.0 (/home/kasparov/arb_bot/crates/arb-config)
+    Checking arb-log v0.1.0 (/home/kasparov/arb_bot/crates/arb-log)
+    Checking arb-recording v0.1.0 (/home/kasparov/arb_bot/crates/arb-recording)
+warning: unused import: `BookUpdate`
+ --> crates/arb-book/src/order_book.rs:1:23
+  |
+1 | use arb_core::types::{BookUpdate, Venue};
+  |                       ^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0277]: the trait bound `Opportunity: serde::Serialize` is not satisfied
+    --> crates/arb-log/src/logger.rs:17:42
+     |
+  17 |         let line = serde_json::to_string(opp)? + "\n";
+     |                    --------------------- ^^^ the trait `serde_core::ser::Serialize` is not implemented for `Opportunity`
+     |                    |
+     |                    required by a bound introduced by this call
+     |
+     = note: for local types consider adding `#[derive(serde::Serialize)]` to your `Opportunity` type
+     = note: for types from other crates check whether the crate offers a `serde` feature flag
+     = help: the following other types implement trait `serde_core::ser::Serialize`:
+               &'a T
+               &'a mut T
+               ()
+               (T,)
+               (T0, T1)
+               (T0, T1, T2)
+               (T0, T1, T2, T3)
+               (T0, T1, T2, T3, T4)
+             and 139 others
+note: required by a bound in `serde_json::to_string`
+    --> /home/kasparov/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149/src/ser.rs:2247:17
+     |
+2245 | pub fn to_string<T>(value: &T) -> Result<String>
+     |        --------- required by a bound in this function
+2246 | where
+2247 |     T: ?Sized + Serialize,
+     |                 ^^^^^^^^^ required by this bound in `to_string`
+
+For more information about this error, try `rustc --explain E0277`.
+error[E0277]: the trait bound `Venue: Default` is not satisfied
+  --> crates/arb-book/src/order_book.rs:20:5
+   |
+18 | #[derive(Debug, Clone, Default)]
+   |                        ------- in this derive macro expansion
+19 | pub struct OrderBook {
+20 |     pub venue: Venue,
+   |     ^^^^^^^^^^^^^^^^ the trait `Default` is not implemented for `Venue`
+
+error[E0277]: the trait bound `Instant: Default` is not satisfied
+  --> crates/arb-book/src/order_book.rs:25:5
+   |
+18 | #[derive(Debug, Clone, Default)]
+   |                        ------- in this derive macro expansion
+...
+25 |     pub last_update_ts: std::time::Instant,
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `Default` is not implemented for `Instant`
+
+error: could not compile `arb-log` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+warning: variable does not need to be mutable
+  --> crates/arb-recording/src/recorder.rs:28:13
+   |
+28 |         let mut buf = serde_json::to_string(&line)? + "
+   |             ----^^^
+   |             |
+   |             help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+error[E0433]: cannot find module or crate `ordered_float` in this scope
+  --> crates/arb-recording/src/replayer.rs:32:23
+   |
+32 |                 Some((ordered_float::OrderedFloat(a.get(0)?.as_f64()?), a.get(1)?.as_f64().unwrap_or(0.0)))
+   |                       ^^^^^^^^^^^^^ use of unresolved module or unlinked crate `ordered_float`
+   |
+   = help: if you wanted to use a crate named `ordered_float`, use `cargo add ordered_float` to add it to your `Cargo.toml`
+
+error[E0433]: cannot find module or crate `ordered_float` in this scope
+  --> crates/arb-recording/src/replayer.rs:36:23
+   |
+36 |                 Some((ordered_float::OrderedFloat(a.get(0)?.as_f64()?), a.get(1)?.as_f64().unwrap_or(0.0)))
+   |                       ^^^^^^^^^^^^^ use of unresolved module or unlinked crate `ordered_float`
+   |
+   = help: if you wanted to use a crate named `ordered_float`, use `cargo add ordered_float` to add it to your `Cargo.toml`
+
+warning: `arb-book` (lib) generated 1 warning
+error: could not compile `arb-book` (lib) due to 2 previous errors; 1 warning emitted
+For more information about this error, try `rustc --explain E0433`.
+warning: `arb-recording` (lib) generated 1 warning
+error: could not compile `arb-recording` (lib) due to 2 previous errors; 1 warning emitted
+error[E0308]: mismatched types
+  --> crates/arb-config/src/loader.rs:79:45
+   |
+79 |                     kparts.get(0).unwrap_or(&base).to_string(),
+   |                                   --------- ^^^^^ expected `&&str`, found `&String`
+   |                                   |
+   |                                   arguments to this method are incorrect
+   |
+   = note: expected reference `&&str`
+              found reference `&std::string::String`
+help: the return type of this call is `&std::string::String` due to the type of the argument passed
+  --> crates/arb-config/src/loader.rs:79:21
+   |
+79 |                     kparts.get(0).unwrap_or(&base).to_string(),
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^-----^
+   |                                             |
+   |                                             this argument influences the return type of `unwrap_or`
+note: method defined here
+  --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:1038:17
+
+error[E0308]: mismatched types
+  --> crates/arb-config/src/loader.rs:80:45
+   |
+80 |                     kparts.get(1).unwrap_or(&quote).to_string(),
+   |                                   --------- ^^^^^^ expected `&&str`, found `&String`
+   |                                   |
+   |                                   arguments to this method are incorrect
+   |
+   = note: expected reference `&&str`
+              found reference `&std::string::String`
+help: the return type of this call is `&std::string::String` due to the type of the argument passed
+  --> crates/arb-config/src/loader.rs:80:21
+   |
+80 |                     kparts.get(1).unwrap_or(&quote).to_string(),
+   |                     ^^^^^^^^^^^^^^^^^^^^^^^^------^
+   |                                             |
+   |                                             this argument influences the return type of `unwrap_or`
+note: method defined here
+  --> /rustc/59807616e1fa2540724bfbac14d7976d7e4a3860/library/core/src/option.rs:1038:17
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `arb-config` (lib) due to 2 previous errors

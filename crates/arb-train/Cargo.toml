@@ -1,0 +1,24 @@
+[package]
+name = "arb-train"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+arb-core       = { workspace = true }
+arb-book       = { workspace = true }
+arb-engine     = { workspace = true }
+arb-recording  = { workspace = true }
+arb-config     = { workspace = true }
+serde          = { workspace = true }
+serde_json     = { workspace = true }
+csv            = "1"
+tokio          = { workspace = true }
+tracing        = { workspace = true }
+anyhow         = { workspace = true }
+chrono         = { workspace = true }
+ordered-float  = { workspace = true }
+flume          = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true }

@@ -1,0 +1,13 @@
+[package]
+name = "arb-config"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+arb-core = { workspace = true }
+serde = { workspace = true }
+serde_yaml = { workspace = true }
+thiserror = { workspace = true }
+tracing = { workspace = true }
+anyhow = { workspace = true }

@@ -1,0 +1,14 @@
+[package]
+name = "arb-log"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+arb-core = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+anyhow = { workspace = true }
+chrono = { workspace = true }

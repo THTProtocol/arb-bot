@@ -1,0 +1,15 @@
+[package]
+name = "arb-engine"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+arb-core = { workspace = true }
+arb-book = { workspace = true }
+flume = { workspace = true }
+tracing = { workspace = true }
+tokio = { workspace = true }
+anyhow = { workspace = true }
+ordered-float = { workspace = true }
+chrono = { workspace = true }

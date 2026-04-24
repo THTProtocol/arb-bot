@@ -1,0 +1,2 @@
+{"arg":{"channel":"books","instId":"BTC-USDT"},"action":"update","data":[{"bids":[["10000.00","0.25"]],"asks":[],"checksum":0}]}
+{"arg":{"channel":"books","instId":"BTC-USDT"},"action":"update","data":[{"bids":[],"asks":[["10001.00","0.10"]],"checksum":0}]}

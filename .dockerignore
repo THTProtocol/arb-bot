@@ -1,0 +1,13 @@
+/target
+**/*.rs.bk
+Cargo.lock
+*.swp
+*.swo
+*~
+.DS_Store
+/logs/
+*.log
+paper_ledger.jsonl
+opportunities.jsonl
+.git
+.gitignore

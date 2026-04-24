@@ -1,0 +1,236 @@
+warning: unused import: `anyhow::Context`
+ --> crates/arb-core/src/symbol_map.rs:2:5
+  |
+2 | use anyhow::Context;
+  |     ^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `arb-core` (lib) generated 1 warning (run `cargo fix --lib -p arb-core` to apply 1 suggestion)
+warning: `arb-core` (lib test) generated 1 warning (1 duplicate)
+warning: variable does not need to be mutable
+  --> crates/arb-recording/src/recorder.rs:33:13
+   |
+33 |         let mut buf = serde_json::to_string(&line)?
+   |             ----^^^
+   |             |
+   |             help: remove this `mut`
+   |
+   = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused imports: `Direction`, `Strategy`, and `Venue`
+ --> crates/arb-metrics/src/exporter.rs:2:23
+  |
+2 | use arb_core::types::{Direction, Strategy, Venue};
+  |                       ^^^^^^^^^  ^^^^^^^^  ^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `metrics`
+  --> crates/arb-metrics/src/exporter.rs:74:32
+   |
+74 | async fn metrics_handler(State(metrics): State<Arc<Metrics>>) -> String {
+   |                                ^^^^^^^ help: if this is intentional, prefix it with an underscore: `_metrics`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: `arb-recording` (lib) generated 1 warning (run `cargo fix --lib -p arb-recording` to apply 1 suggestion)
+warning: `arb-metrics` (lib) generated 2 warnings (run `cargo fix --lib -p arb-metrics` to apply 2 suggestions)
+warning: `arb-recording` (lib test) generated 1 warning (1 duplicate)
+warning: `arb-metrics` (lib test) generated 2 warnings (2 duplicates)
+warning: unused import: `Duration`
+ --> crates/arb-engine/src/engine.rs:9:17
+  |
+9 | use std::time::{Duration, Instant};
+  |                 ^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `tracing::info`
+  --> crates/arb-engine/src/engine.rs:10:5
+   |
+10 | use tracing::info;
+   |     ^^^^^^^^^^^^^
+
+   Compiling arb-adapters v0.1.0 (/home/kasparov/arb_bot/crates/arb-adapters)
+warning: unused import: `Venue`
+ --> crates/arb-exec/src/paper_executor.rs:3:47
+  |
+3 | use arb_core::types::{Direction, Opportunity, Venue};
+  |                                               ^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `arb-engine` (lib) generated 2 warnings (run `cargo fix --lib -p arb-engine` to apply 2 suggestions)
+warning: `arb-exec` (lib) generated 1 warning (run `cargo fix --lib -p arb-exec` to apply 1 suggestion)
+warning: `arb-engine` (lib test) generated 2 warnings (2 duplicates)
+warning: `arb-exec` (lib test) generated 1 warning (1 duplicate)
+warning: unused import: `tokio::net::TcpStream`
+  --> crates/arb-adapters/src/binance.rs:10:5
+   |
+10 | use tokio::net::TcpStream;
+   |     ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused imports: `MaybeTlsStream` and `WebSocketStream`
+  --> crates/arb-adapters/src/binance.rs:12:40
+   |
+12 | use tokio_tungstenite::{connect_async, MaybeTlsStream, WebSocketStream};
+   |                                        ^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^
+
+warning: unused import: `SinkExt`
+ --> crates/arb-adapters/src/binance.rs:5:15
+  |
+5 | use futures::{SinkExt, StreamExt};
+  |               ^^^^^^^
+
+warning: `arb-adapters` (lib) generated 3 warnings (run `cargo fix --lib -p arb-adapters` to apply 2 suggestions)
+   Compiling arb-bin v0.1.0 (/home/kasparov/arb_bot/crates/arb-bin)
+warning: unused import: `arb_core::error::ArbError`
+ --> crates/arb-bin/src/ntp_check.rs:2:5
+  |
+2 | use arb_core::error::ArbError;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `Config`
+ --> crates/arb-bin/src/main.rs:7:32
+  |
+7 | use arb_config::loader::{load, Config};
+  |                                ^^^^^^
+
+warning: unused variable: `config_path`
+ --> crates/arb-bin/src/ntp_check.rs:6:20
+  |
+6 | pub async fn check(config_path: &str) -> anyhow::Result<()> {
+  |                    ^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_config_path`
+  |
+  = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `addr`
+ --> crates/arb-bin/src/ntp_check.rs:9:9
+  |
+9 |     let addr: std::net::SocketAddr = "time.google.com:123".parse().context("ntp addr")?;
+  |         ^^^^ help: if this is intentional, prefix it with an underscore: `_addr`
+
+warning: `arb-adapters` (lib test) generated 3 warnings (3 duplicates)
+warning: `arb-bin` (bin "arb-bin" test) generated 4 warnings (run `cargo fix --bin "arb-bin" -p arb-bin --tests` to apply 4 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.79s
+     Running unittests src/lib.rs (target/debug/deps/arb_adapters-aa4b188a598b3bf2)
+
+running 2 tests
+test hmac_util::tests::test_kraken_signing ... ok
+test hmac_util::tests::test_binance_signing ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/arb_bin-fbc2790240f5b0a0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_book-c0ba0252c71cf68d)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_config-9733580098d451a0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_core-7fc1f853f2c8717b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_engine-d99fe61a5d0abf27)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_exec-b7cc85e4b675a26b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_log-cee1966a0fa01304)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_metrics-9947608d3af6d8c0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/arb_recording-ff4cca9a435c2d5a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_adapters
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_book
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_config
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_core
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_engine
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_exec
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_log
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_metrics
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests arb_recording
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
