@@ -9,3 +9,5 @@ Cargo.lock
 *.log
 paper_ledger.jsonl
 opportunities.jsonl
+.env.testnet
+.env

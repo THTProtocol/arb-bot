@@ -36,6 +36,7 @@ members = [
     "crates/arb-train",
     "crates/arb-telegram",
     "crates/arb-bin",
+    "crates/arb-backtest",
 ]
 resolver = "2"
 
@@ -90,3 +91,4 @@ arb-live       = { path = "crates/arb-live" }
 arb-train      = { path = "crates/arb-train" }
 
 arb-telegram      = { path = "crates/arb-telegram" }
+arb-backtest      = { path = "crates/arb-backtest" }
