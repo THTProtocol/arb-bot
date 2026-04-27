@@ -28,6 +28,10 @@ rayon           = { version = "1.10", optional = true }
 pretty_assertions  = { workspace = true }
 tempfile          = { workspace = true }
 
+[[bin]]
+name = "arb-backtest"
+path = "src/bin/arb-backtest.rs"
+
 [features]
 default      = ["parallel"]
 parallel     = ["dep:rayon"]
