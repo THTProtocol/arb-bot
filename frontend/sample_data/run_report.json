@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0",
+  "config_hash": "ccaf5d8c75cd55c7",
+  "n_updates": 3360,
+  "n_opportunities": 48,
+  "n_fills": 48,
+  "fill_rate_pct": 1.4285714285714286,
+  "gross_pnl": 142.2408458301854,
+  "net_pnl": 17.440845830185378,
+  "sharpe": 3.633509547953295,
+  "max_drawdown_pct": 0.0,
+  "realized_slippage_bps": 22.656165713668173,
+  "per_symbol": {
+    "LINK/USDT": {
+      "opp_count": 0,
+      "fills": 48,
+      "gross_pnl": 142.2408458301854,
+      "net_pnl": 17.440845830185378
+    }
+  }
+}
