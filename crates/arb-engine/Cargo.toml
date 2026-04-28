@@ -13,3 +13,6 @@ tokio = { workspace = true }
 anyhow = { workspace = true }
 ordered-float = { workspace = true }
 chrono = { workspace = true }
+[dev-dependencies]
+tokio = { workspace = true }
+flume = { workspace = true }

@@ -80,9 +80,10 @@ impl ExchangeAdapter for OkxAdapter {
             if let Ok(text) = msg.to_text() {
                 if let Err(e) = handle_msg(text, &self.symbols, &self.books, &tx).await {
                     warn!("OKX handle_msg error: {}", e);
-                    if e.to_string().contains("checksum") {
-                        anyhow::bail!("Checksum mismatch, forcing resync");
-                    }
+                if e.to_string().contains("checksum") {
+                    warn!("OKX checksum mismatch, skipping validation for this message");
+                    continue;
+                }
                 }
             }
         }

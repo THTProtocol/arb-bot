@@ -1,0 +1,40 @@
+mode: paper
+profit_threshold_bps: 0.5
+notional_usd: 1000
+usd_usdt_basis_bps: 0
+bnb_discount: false
+ntp_max_drift_ms: 500
+venues:
+  enabled: [binance, kraken, okx]
+symbols:
+  - { binance: BTCUSDT,  kraken: "XBT/USDT", okx: "BTC-USDT" }
+  - { binance: BTCUSDT,  kraken: "XBT/USD",  okx: "BTC-USDT" }
+  - { binance: ETHUSDT,  kraken: "ETH/USDT", okx: "ETH-USDT" }
+  - { binance: ETHUSDT,  kraken: "ETH/USD",  okx: "ETH-USDT" }
+  - { binance: SOLUSDT,  kraken: "SOL/USDT", okx: "SOL-USDT" }
+  - { binance: XRPUSDT,  kraken: "XRP/USDT", okx: "XRP-USDT" }
+  - { binance: ADAUSDT,  kraken: "ADA/USDT", okx: "ADA-USDT" }
+  - { binance: LINKUSDT, kraken: "LINK/USDT", okx: "LINK-USDT" }
+  - { binance: DOTUSDT,  kraken: "DOT/USDT", okx: "DOT-USDT" }
+  - { binance: LTCUSDT,  kraken: "LTC/USDT", okx: "LTC-USDT" }
+fees:
+  binance: { taker_bps: 10.0, maker_bps: 10.0 }
+  kraken:  { taker_bps: 26.0, maker_bps: 16.0 }
+  okx:     { taker_bps: 10.0, maker_bps:  8.0 }
+strategies: [taker_taker, maker_taker]
+risk:
+  max_notional_per_opp_usd: 5000
+  circuit_breaker_errors: 5
+  circuit_breaker_cooldown_s: 60
+log:
+  level: info
+  format: json
+  path: ./logs/
+metrics:
+  port: 9090
+api_keys:
+  binance_api_key: ""
+  binance_api_secret: ""
+  okx_api_key: ""
+  okx_api_secret: ""
+  okx_passphrase: ""

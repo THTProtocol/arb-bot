@@ -28,19 +28,15 @@ pub async fn run_simulation(
     let mut opp_records: Vec<Opportunity> = Vec::new();
     let mut fill_records: Vec<FillRecord> = Vec::new();
 
-    let opp_rx_clone = opp_rx.clone();
-    let _executor_handle = tokio::spawn(async move {
-        // drain opp_rx and fill
-        // We process opps inline after feeding books to avoid complex concurrency during sim
-        // (the runner below blocks this handle)
-        while let Ok(_opp) = opp_rx_clone.recv_async().await {}
-    });
-
-    // Feed all book updates synchronously to guarantee determinism
+    // Feed all book updates synchronously to guarantee determinism and capture opps inline
     let n = updates.len();
     for (i, update) in updates.into_iter().enumerate() {
         let _ = book_tx.send_async(update).await;
-        // Drain any opportunities produced synchronously
+        // Sleep briefly so the engine task (spawned with tokio::spawn) can be polled
+        // before we try to drain its output channel. On a single-thread block_on
+        // runtime, yielding isn't enough; a tiny sleep forces the scheduler to swap.
+        tokio::time::sleep(tokio::time::Duration::from_millis(10)).await;
+        // Drain any opportunities produced
         while let Ok(opp) = opp_rx.try_recv() {
             opp_records.push(opp.clone());
             // For simulation, simply log the paper fill inline.
@@ -66,11 +62,6 @@ pub async fn run_simulation(
         }
     }
 
-    drop(book_tx);
-    drop(opp_tx);
-
-    let _ = engine_handle.await;
-
     // Write ledger for reproducibility checksum
     let mut ledger = tokio::fs::OpenOptions::new()
         .create(true)
@@ -83,6 +74,14 @@ pub async fn run_simulation(
         ledger.write_all(line.as_bytes()).await?;
     }
     ledger.flush().await?;
+
+    // Drop the channels NOW so the engine task can finish cleanly.
+    // If we drop opp_tx before await, the engine's send_async would fail
+    // and we'd lose any opportunities produced after the last try_recv.
+    drop(book_tx);
+    drop(opp_tx);
+
+    let _ = engine_handle.await;
 
     Ok(SimResult {
         records: fill_records,

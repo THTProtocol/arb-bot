@@ -20,11 +20,12 @@ impl Replayer {
                 continue;
             }
             let val: serde_json::Value = serde_json::from_str(line)?;
-            let venue = match val["venue"].as_str() {
-                Some("Binance") => Venue::Binance,
-                Some("Kraken") => Venue::Kraken,
-                _ => continue,
-            };
+            let venue =        match val["venue"].as_str() {
+            Some("Binance") => Venue::Binance,
+            Some("Kraken") => Venue::Kraken,
+            Some("Okx") | Some("OKX") => Venue::Okx,
+            _ => continue,
+        };
             let sym_str = val["symbol"].as_str().unwrap_or("");
             let parts: Vec<&str> = sym_str.split('/').collect();
             let symbol = NormalizedSymbol::new(

@@ -71,11 +71,9 @@ impl BinanceClient {
         params.insert("timestamp".into(), ts.to_string());
         params.insert("recvWindow".into(), "10000".into());
 
-        let mut query = params
-            .iter()
-            .map(|(k, v)| format!("{}={}", k, v))
-            .collect::<Vec<_>>()
-            .join("&");
+        let mut parts: Vec<_> = params.iter().map(|(k,v)| format!("{}={}", k, v)).collect();
+        parts.sort();
+        let mut query = parts.join("&");
         let sig = sign_binance(&query, &self.api_secret);
         query.push_str(&format!("&signature={}", sig));
 

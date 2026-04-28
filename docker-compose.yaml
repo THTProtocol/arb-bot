@@ -1,0 +1,35 @@
+services:
+  recorder:
+    build: .
+    command: ["/usr/local/bin/arb-recorder", "--venues", "binance,okx", "--out", "/data/recordings"]
+    environment:
+      RUST_LOG: info
+    volumes:
+      - recordings:/data/recordings
+
+  backtest:
+    build: .
+    command: ["/usr/local/bin/arb-backtest", "--recordings", "/data/recordings/latest", "--out", "/data/backtest"]
+    environment:
+      RUST_LOG: info
+    volumes:
+      - recordings:/data/recordings
+    depends_on:
+      recorder:
+        condition: service_started
+
+  paper-engine:
+    build: .
+    command: ["/usr/local/bin/arb", "--mode", "paper", "--venues", "binance,okx"]
+    ports:
+      - "9090:9090"
+    environment:
+      RUST_LOG: warn
+    volumes:
+      - recordings:/data/recordings
+    depends_on:
+      recorder:
+        condition: service_started
+
+volumes:
+  recordings:

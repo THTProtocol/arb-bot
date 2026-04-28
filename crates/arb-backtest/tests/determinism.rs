@@ -4,7 +4,7 @@ use std::process::Command;
 fn deterministic_byte_identical_reports() {
     // Build the binary first
     let status = Command::new("cargo")
-        .args(["build", "--bin", "arb-backtest", "--release"])
+        .args(["build", "-p", "arb-backtest", "--bin", "arb-backtest", "--release"])
         .current_dir("/home/kasparov/arb_bot")
         .status()
         .expect("cargo build");

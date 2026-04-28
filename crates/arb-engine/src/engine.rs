@@ -122,6 +122,9 @@ impl Engine {
             final_net -= usd_usdt_basis_bps;
         }
 
+        tracing::debug!("EVAL buy_v={:?} sell_v={:?} buy_vwap={:?} sell_vwap={:?} gross_bps={:?} net_bps={:?} final_net={:?} threshold={:?}",
+            buy_v, sell_v, buy_vwap.vwap, sell_vwap.vwap, gross_bps, net_bps, final_net, profit_threshold_bps);
+
         if final_net <= profit_threshold_bps {
             return None;
         }

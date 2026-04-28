@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "config_hash": "7cb34d8d2c9a1ea0",
+  "n_updates": 878,
+  "n_opportunities": 0,
+  "n_fills": 0,
+  "fill_rate_pct": 0.0,
+  "gross_pnl": 0.0,
+  "net_pnl": 0.0,
+  "sharpe": 0.0,
+  "max_drawdown_pct": 0.0,
+  "realized_slippage_bps": 0.0,
+  "per_symbol": {}
+}
