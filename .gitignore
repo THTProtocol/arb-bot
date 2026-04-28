@@ -12,3 +12,4 @@ opportunities.jsonl
 .env.testnet
 .env
 recordings/
+run_artifacts/

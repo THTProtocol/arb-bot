@@ -16,6 +16,7 @@ pub async fn run_simulation(
     updates: Vec<BookUpdate>,
     engine_cfg: EngineConfig,
     ledger_path: &Path,
+    speed: f64,
 ) -> anyhow::Result<SimResult> {
     let (opp_tx, opp_rx) = unbounded::<Opportunity>();
     let (book_tx, book_rx) = unbounded::<BookUpdate>();
@@ -32,10 +33,13 @@ pub async fn run_simulation(
     let n = updates.len();
     for (i, update) in updates.into_iter().enumerate() {
         let _ = book_tx.send_async(update).await;
-        // Sleep briefly so the engine task (spawned with tokio::spawn) can be polled
-        // before we try to drain its output channel. On a single-thread block_on
-        // runtime, yielding isn't enough; a tiny sleep forces the scheduler to swap.
-        tokio::time::sleep(tokio::time::Duration::from_millis(10)).await;
+        // Small configurable delay to let the engine task stay ahead
+        if speed > 0.0 {
+            let ms = std::cmp::max(1, (10.0 / speed) as u64);
+            tokio::time::sleep(tokio::time::Duration::from_millis(ms)).await;
+        } else {
+            tokio::time::sleep(tokio::time::Duration::from_micros(100)).await;
+        }
         // Drain any opportunities produced
         while let Ok(opp) = opp_rx.try_recv() {
             opp_records.push(opp.clone());

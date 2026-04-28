@@ -7,8 +7,9 @@ use ordered_float::OrderedFloat;
 use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::{Arc, Mutex};
+use tokio::time::{interval, Duration};
 use tokio_tungstenite::connect_async;
-use tracing::{info, warn};
+use tracing::{error, info, warn};
 
 pub struct OkxAdapter {
     symbols: Vec<NormalizedSymbol>,
@@ -50,7 +51,36 @@ impl ExchangeAdapter for OkxAdapter {
     }
 
     async fn start(&self, tx: Sender<BookUpdate>) -> anyhow::Result<()> {
-        info!("OKX connecting wss://ws.okx.com:8443/ws/v5/public");
+        let mut attempt = 0u64;
+        loop {
+            attempt += 1;
+            info!("OKX connecting (attempt {}) wss://ws.okx.com:8443/ws/v5/public", attempt);
+            match self.run_connection(tx.clone()).await {
+                Ok(()) => {
+                    info!("OKX connection ended cleanly");
+                    return Ok(());
+                }
+                Err(e) => {
+                    error!("OKX connection error (attempt {}): {}", attempt, e);
+                    let backoff = std::cmp::min(30, attempt * 2);
+                    warn!("OKX reconnecting in {}s...", backoff);
+                    tokio::time::sleep(Duration::from_secs(backoff)).await;
+                }
+            }
+        }
+    }
+
+    async fn stop(&self) -> anyhow::Result<()> {
+        Ok(())
+    }
+
+    async fn get_balances(&self) -> anyhow::Result<Balances> {
+        Ok(Balances::default())
+    }
+}
+
+impl OkxAdapter {
+    async fn run_connection(&self, tx: Sender<BookUpdate>) -> anyhow::Result<()> {
         let (mut ws_stream, _) = connect_async("wss://ws.okx.com:8443/ws/v5/public")
             .await
             .context("okx ws connect")?;
@@ -74,28 +104,44 @@ impl ExchangeAdapter for OkxAdapter {
             .await
             .context("okx sub send")?;
 
-        let (_, mut read) = ws_stream.split();
-        while let Some(msg) = read.next().await {
-            let msg = msg.context("okx ws msg")?;
-            if let Ok(text) = msg.to_text() {
-                if let Err(e) = handle_msg(text, &self.symbols, &self.books, &tx).await {
-                    warn!("OKX handle_msg error: {}", e);
-                if e.to_string().contains("checksum") {
-                    warn!("OKX checksum mismatch, skipping validation for this message");
-                    continue;
+        let (mut write, mut read) = ws_stream.split();
+
+        // Heartbeat: OKX requires ping every 30s
+        let mut ping = interval(Duration::from_secs(25));
+        loop {
+            tokio::select! {
+                _ = ping.tick() => {
+                    if let Err(e) = write.send(tokio_tungstenite::tungstenite::Message::Ping(vec![])).await {
+                        warn!("OKX ping failed: {}", e);
+                        return Err(e.into());
+                    }
                 }
+                msg = read.next() => {
+                    match msg {
+                        Some(Ok(msg)) => {
+                            if let Ok(text) = msg.to_text() {
+                                if text.is_empty() { continue; }
+                                if let Err(e) = handle_msg(text, &self.symbols, &self.books, &tx).await {
+                                    if e.to_string().contains("checksum") {
+                                        warn!("OKX checksum mismatch, skipping validation for this message");
+                                        continue;
+                                    }
+                                    warn!("OKX handle_msg error: {}", e);
+                                }
+                            }
+                        }
+                        Some(Err(e)) => {
+                            warn!("OKX websocket error: {}", e);
+                            return Err(e.into());
+                        }
+                        None => {
+                            warn!("OKX stream closed by server");
+                            return Err(anyhow::anyhow!("stream closed"));
+                        }
+                    }
                 }
             }
         }
-        Ok(())
-    }
-
-    async fn stop(&self) -> anyhow::Result<()> {
-        Ok(())
-    }
-
-    async fn get_balances(&self) -> anyhow::Result<Balances> {
-        Ok(Balances::default())
     }
 }
 

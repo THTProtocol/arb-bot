@@ -1,21 +1,33 @@
 {
   "version": "0.1.0",
-  "config_hash": "ccaf5d8c75cd55c7",
-  "n_updates": 3360,
-  "n_opportunities": 48,
-  "n_fills": 48,
-  "fill_rate_pct": 1.4285714285714286,
-  "gross_pnl": 142.2408458301854,
-  "net_pnl": 17.440845830185378,
-  "sharpe": 3.633509547953295,
+  "config_hash": "792fa2b8c61c8e38",
+  "n_updates": 28321,
+  "n_opportunities": 394,
+  "n_fills": 394,
+  "fill_rate_pct": 1.3911938137777622,
+  "gross_pnl": 12296.951591840527,
+  "net_pnl": 2052.9515918405154,
+  "sharpe": 0.8881729943975318,
   "max_drawdown_pct": 0.0,
-  "realized_slippage_bps": 22.656165713668173,
+  "realized_slippage_bps": 25.235772807935327,
   "per_symbol": {
-    "LINK/USDT": {
+    "SOL/USDT": {
       "opp_count": 0,
-      "fills": 48,
-      "gross_pnl": 142.2408458301854,
-      "net_pnl": 17.440845830185378
+      "fills": 78,
+      "gross_pnl": 2100.6956787259555,
+      "net_pnl": 72.69567872595728
+    },
+    "BTC/USDT": {
+      "opp_count": 0,
+      "fills": 140,
+      "gross_pnl": 3894.581167522788,
+      "net_pnl": 254.58116752279483
+    },
+    "XRP/USDT": {
+      "opp_count": 0,
+      "fills": 176,
+      "gross_pnl": 6301.674745591768,
+      "net_pnl": 1725.6747455917694
     }
   }
 }

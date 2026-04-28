@@ -61,7 +61,7 @@ async fn main() -> anyhow::Result<()> {
     std::fs::create_dir_all(&out_dir)?;
     let ledger = out_dir.join("paper_ledger.jsonl");
 
-    let sim_result = run_simulation(updates.clone(), engine_cfg, &ledger).await?;
+    let sim_result = run_simulation(updates.clone(), engine_cfg, &ledger, args.speed).await?;
     info!(
         "Simulation complete: {} opportunities, {} fills",
         sim_result.opportunities.len(),

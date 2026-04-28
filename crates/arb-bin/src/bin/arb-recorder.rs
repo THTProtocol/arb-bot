@@ -7,7 +7,7 @@ use clap::Parser;
 use flume::bounded;
 use std::path::Path;
 use tokio::io::AsyncWriteExt;
-use tracing::{info, warn};
+use tracing::{error, info, warn};
 
 #[derive(Debug, Parser)]
 #[command(name = "arb-recorder")]
@@ -102,8 +102,19 @@ async fn main() -> anyhow::Result<()> {
                 continue;
             }
         };
-        handles.push(handle);
+        handles.push((venue, handle));
     }
+
+    // Spawn handle monitor so adapter deaths are logged immediately
+    let monitor_handle = tokio::spawn(async move {
+        for (venue, h) in handles {
+            match h.await {
+                Ok(Ok(())) => info!("{} adapter exited cleanly", venue),
+                Ok(Err(e)) => error!("{} adapter failed: {}", venue, e),
+                Err(e) => error!("{} adapter panicked: {}", venue, e),
+            }
+        }
+    });
 
     let limit = chrono::Duration::hours(args.hours as i64);
     let start = chrono::Utc::now();

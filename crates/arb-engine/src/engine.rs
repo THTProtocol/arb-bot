@@ -51,11 +51,52 @@ impl Engine {
                 book.0.apply_diff(update.bids, update.asks, update.seq);
             }
             book.1 = Instant::now();
-            self.evaluate_all().await;
+            // only evaluate the specific symbol that just updated
+            self.evaluate_symbol(&update.symbol).await;
         }
     }
 
-    async fn evaluate_all(&mut self) {
+    async fn evaluate_symbol(&mut self, updated_sym: &NormalizedSymbol) {
+        let threshold = self.cfg.profit_threshold_bps;
+        let strategies = self.cfg.strategies.clone();
+        let directions = all_directions(&self.cfg.enabled_venues);
+        let book_max_age = Duration::from_secs(5);
+
+        for sym_map in &self.cfg.symbol_maps {
+            let Some(normalized) = sym_map.values().next() else { continue; };
+            if normalized != updated_sym { continue; }
+            
+            for &(buy_v, sell_v) in &directions {
+                let Some(buy_sym) = sym_map.get(&buy_v) else { continue; };
+                let Some(sell_sym) = sym_map.get(&sell_v) else { continue; };
+                
+                // Staleness check: skip if either book doesn't exist or is stale
+                let buy_fresh = self.books.get(&(buy_v, buy_sym.clone()))
+                    .map(|b| b.1.elapsed() < book_max_age)
+                    .unwrap_or(false);
+                let sell_fresh = self.books.get(&(sell_v, sell_sym.clone()))
+                    .map(|b| b.1.elapsed() < book_max_age)
+                    .unwrap_or(false);
+                if !buy_fresh || !sell_fresh {
+                    continue;
+                }
+                
+                for strat in &strategies {
+                    if let Some(opp) = self.evaluate(
+                        buy_v, sell_v, buy_sym, sell_sym, strat,
+                        self.cfg.notional_usd, self.cfg.usd_usdt_basis_bps, threshold,
+                    ) {
+                        if self.cfg.mode == BuildMode::Paper || self.cfg.mode == BuildMode::Observe {
+                            let _ = self.opp_tx.send_async(opp).await;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #[allow(dead_code)]
+    async fn _evaluate_all(&mut self) {
         let maps = self.cfg.symbol_maps.clone();
         let strategies = self.cfg.strategies.clone();
         let threshold = self.cfg.profit_threshold_bps;
