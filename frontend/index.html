@@ -6,56 +6,137 @@
 <title>Arb Bot Dashboard</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
-  :root { --bg:#0b0e14; --panel:#161b22; --border:#30363d; --muted:#8b949e; --green:#3fb950; --red:#f85149; --blue:#58a6ff; --orange:#d29922; }
+  :root {
+    --bg:#0b0e14; --panel:#161b22; --border:#30363d;
+    --muted:#8b949e; --green:#3fb950; --red:#f85149;
+    --blue:#58a6ff; --orange:#d29922;
+  }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: #c9d1d9; padding: 24px; line-height: 1.5; }
-  h1 { margin: 0 0 20px; font-size: 22px; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--bg); color: #c9d1d9;
+    padding: 24px; line-height: 1.5;
+  }
+
+  /* ---- Header ---- */
+  .hdr {
+    display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .hdr-logo {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, #3fb950 0%, #58a6ff 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800; color: #0b0e14; flex-shrink: 0;
+  }
+  h1 { margin: 0; font-size: 22px; }
+  .mode-badge {
+    margin-left: auto;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    background: rgba(63,185,80,0.12); border: 1px solid rgba(63,185,80,0.3); color: var(--green);
+  }
+  .mode-badge::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
   h2 { font-size: 16px; margin: 0 0 12px; color: var(--muted); }
-  .dropzone { border: 2px dashed var(--border); border-radius: 10px; padding: 40px; text-align: center; color: var(--muted); cursor: pointer; transition: border-color .2s, background .2s; }
-  .dropzone:hover, .dropzone.dragover { border-color: var(--blue); background: rgba(88,166,255,0.05); }
+
+  .dropzone {
+    border: 2px dashed var(--border); border-radius: 10px; padding: 40px;
+    text-align: center; color: var(--muted); cursor: pointer;
+    transition: border-color .2s, background .2s;
+  }
+  .dropzone:hover, .dropzone.dragover {
+    border-color: var(--blue); background: rgba(88,166,255,0.05);
+  }
   #fileInput { display: none; }
 
-  /* summary grids */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 14px; margin: 20px 0; }
-  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
-  .card h3 { margin: 0 0 6px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); font-weight: 500; }
+  /* ---- KPI grid ---- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px; margin: 20px 0;
+  }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px;
+  }
+  .card h3 {
+    margin: 0 0 6px; font-size: 12px; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--muted); font-weight: 500;
+  }
   .card .value { font-size: 22px; font-weight: 700; }
   .positive { color: var(--green); }
   .negative { color: var(--red); }
 
-  /* sections */
+  /* ---- Layout ---- */
   .section { margin-top: 28px; }
   .cols-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 18px; }
   .cols-2 > .card { display: flex; flex-direction: column; }
-  .chart-wrap { position: relative; height: 280px; }
+  .chart-wrap       { position: relative; height: 280px; }
   .chart-wrap-small { position: relative; height: 240px; }
 
-  /* tables */
+  /* ---- Tables ---- */
   table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
   th, td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); }
-  th { color: var(--muted); font-weight: 500; position: sticky; top: 0; background: var(--panel); }
-  tbody tr:hover { background: rgba(88,166,255,0.06); }
+  th {
+    color: var(--muted); font-weight: 500;
+    position: sticky; top: 0; background: var(--panel);
+    user-select: none;
+  }
+  th.sortable:hover { color: var(--blue); }
+  tbody tr:hover { background: rgba(88,166,255,0.06) !important; }
 
   .wrap { max-width: 1200px; margin: 0 auto; }
   .hidden { display: none; }
-  .badge { display:inline-block; padding: 2px 8px; border-radius:12px; font-size:12px; background: var(--border); }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 12px;
+    font-size: 12px; background: var(--border);
+  }
 
-  /* simulator inputs */
+  /* ---- Simulator ---- */
   .sim-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
   .sim-row label { color: var(--muted); font-size: 13px; }
-  .sim-row input { background: var(--bg); border: 1px solid var(--border); color: #c9d1d9; padding: 6px 10px; border-radius: 6px; font-size: 14px; width: 100px; }
+  .sim-row input {
+    background: var(--bg); border: 1px solid var(--border);
+    color: #c9d1d9; padding: 6px 10px; border-radius: 6px;
+    font-size: 14px; width: 100px;
+  }
   .sim-row input:focus { outline: none; border-color: var(--blue); }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 700px) {
+    body { padding: 12px; }
+    .cols-2 { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .hdr { gap: 8px; }
+    .mode-badge { font-size: 11px; padding: 3px 8px; }
+  }
+  @media (max-width: 400px) {
+    .grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Arb Bot Dashboard</h1>
+
+  <div class="hdr">
+    <div class="hdr-logo">▶</div>
+    <h1>Arb Bot Dashboard</h1>
+    <span class="mode-badge" id="modeBadge">Paper Mode</span>
+  </div>
+
   <div class="dropzone" id="dropzone">
-    Drop a backtest folder here, or click to select <strong>run_report.json</strong> and <strong>paper_ledger.jsonl</strong>
+    Drop a backtest folder here, or click to select
+    <strong>run_report.json</strong> and <strong>paper_ledger.jsonl</strong>
   </div>
   <input type="file" id="fileInput" multiple>
 
   <div id="summary" class="hidden">
+
     <!-- KPI cards -->
     <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));">
       <div class="card"><h3>Net PnL</h3><div class="value" id="netPnl">-</div></div>
@@ -75,12 +156,14 @@
 
     <!-- Capital Simulator -->
     <div class="section">
-      <h2>Capital Simulator <span class="badge" style="background:#d2992233; color:var(--orange)">What-if</span></h2>
+      <h2>Capital Simulator
+        <span class="badge" style="background:#d2992233; color:var(--orange)">What-if</span>
+      </h2>
       <div class="card">
-        <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:center; margin-bottom:14px;" class="sim-row">
+        <div class="sim-row" style="margin-bottom:14px;">
           <label>Capital $<input type="number" id="capInput" value="1000"></label>
-          <label>Fee Model (bps) <input type="number" id="feeInput" value="26" step="1"></label>
-          <label>Trades /day <input type="number" id="tradeInput" value="48"></label>
+          <label>Fee Model (bps)<input type="number" id="feeInput" value="26" step="1"></label>
+          <label>Trades /day<input type="number" id="tradeInput" value="48"></label>
         </div>
         <div class="grid" style="grid-template-columns: repeat(4, 1fr); margin:0;">
           <div class="card" style="background:rgba(88,166,255,0.05)"><h3>Projected Gross</h3><div class="value" id="projGross">-</div></div>
@@ -113,9 +196,17 @@
         </div>
         <div class="card">
           <h2>Per-Symbol Performance</h2>
-          <div style="overflow:auto; max-height: 300px; border: 1px solid var(--border); border-radius: 8px;">
+          <div style="overflow:auto; max-height:300px; border:1px solid var(--border); border-radius:8px;">
             <table id="symbolTable">
-              <thead><tr><th>Symbol</th><th>Opportunities</th><th>Fills</th><th>Gross PnL</th><th>Net PnL</th></tr></thead>
+              <thead>
+                <tr>
+                  <th>Symbol</th>
+                  <th class="sortable">Opps</th>
+                  <th class="sortable">Fills</th>
+                  <th class="sortable">Gross PnL</th>
+                  <th class="sortable">Net PnL</th>
+                </tr>
+              </thead>
               <tbody></tbody>
             </table>
           </div>
@@ -126,15 +217,28 @@
     <!-- Trades Table -->
     <div class="section">
       <h2>Trades <span class="badge" id="tradeCount">0</span></h2>
-      <div style="overflow:auto; max-height: 480px; border: 1px solid var(--border); border-radius: 8px;">
+      <div style="overflow:auto; max-height:480px; border:1px solid var(--border); border-radius:8px;">
         <table id="tradesTable">
-          <thead><tr><th>Time</th><th>Symbol</th><th>Buy Venue</th><th>Sell Venue</th><th>Buy $</th><th>Sell $</th><th>Qty</th><th>Total Fee</th><th>PnL</th></tr></thead>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Symbol</th>
+              <th>Buy Venue</th>
+              <th>Sell Venue</th>
+              <th>Buy $</th>
+              <th>Sell $</th>
+              <th>Qty</th>
+              <th>Total Fee</th>
+              <th>PnL</th>
+            </tr>
+          </thead>
           <tbody></tbody>
         </table>
       </div>
     </div>
-  </div>
-</div>
+
+  </div><!-- /#summary -->
+</div><!-- /.wrap -->
 
 <script src="app.js"></script>
 </body>
