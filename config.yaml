@@ -17,6 +17,14 @@ symbols:
   - { binance: LINKUSDT, kraken: "LINK/USDT", okx: "LINK-USDT" }
   - { binance: DOTUSDT,  kraken: "DOT/USDT", okx: "DOT-USDT" }
   - { binance: LTCUSDT,  kraken: "LTC/USDT", okx: "LTC-USDT" }
+  - { binance: DOGEUSDT, kraken: "DOGE/USDT", okx: "DOGE-USDT" }
+  - { binance: BCHUSDT,  kraken: "BCH/USDT", okx: "BCH-USDT" }
+  - { binance: ETCUSDT,  kraken: "ETC/USDT", okx: "ETC-USDT" }
+  - { binance: AVAXUSDT, kraken: "AVAX/USDT", okx: "AVAX-USDT" }
+  - { binance: NEARUSDT, kraken: "NEAR/USDT", okx: "NEAR-USDT" }
+  - { binance: ARBUSDT,  kraken: "ARB/USDT", okx: "ARB-USDT" }
+  - { binance: OPUSDT,   kraken: "OP/USDT",  okx: "OP-USDT" }
+  - { binance: APTUSDT,  kraken: "APT/USDT", okx: "APT-USDT" }
 fees:
   binance: { taker_bps: 10.0, maker_bps: 10.0 }
   kraken:  { taker_bps: 26.0, maker_bps: 16.0 }
