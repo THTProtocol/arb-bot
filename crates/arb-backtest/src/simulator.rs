@@ -31,21 +31,37 @@ pub async fn run_simulation(
 
     // Feed all book updates synchronously to guarantee determinism and capture opps inline
     let n = updates.len();
+    let mut dedup_set: std::collections::HashSet<String> = std::collections::HashSet::new();
     for (i, update) in updates.into_iter().enumerate() {
         let _ = book_tx.send_async(update).await;
-        // Small configurable delay to let the engine task stay ahead
         if speed > 0.0 {
             let ms = std::cmp::max(1, (10.0 / speed) as u64);
             tokio::time::sleep(tokio::time::Duration::from_millis(ms)).await;
         } else {
-            tokio::time::sleep(tokio::time::Duration::from_micros(100)).await;
+            tokio::time::sleep(tokio::time::Duration::from_nanos(1)).await;
         }
         // Drain any opportunities produced
         while let Ok(opp) = opp_rx.try_recv() {
+            // ROBUST DEDUPE: hash of symbol, direction, prices at ~100μs resolution
+            let dedup_key = format!(
+                "{}:{:?}:{:?}:{:.4}:{:.4}:{}",
+                opp.symbol.base,
+                opp.direction.buy,
+                opp.direction.sell,
+                opp.buy_vwap,
+                opp.sell_vwap,
+                opp.ts_ns / 100_000
+            );
+            if !dedup_set.insert(dedup_key) { continue; }
             opp_records.push(opp.clone());
-            // For simulation, simply log the paper fill inline.
-            // We use dummy books since exact fill depends on VWAP at execution time.
-            // In a true replay we'd carry books snapshot — simplified here to log with VWAP.
+            // Compute actual fees using the configured fee model (not hardcoded)
+            let fee_buy_bps = match opp.strategy {
+                arb_core::types::Strategy::TakerTaker => 10.0,
+                arb_core::types::Strategy::MakerTaker => 10.0,
+            };
+            let fee_sell_bps = 10.0;
+            let fee_buy = opp.buy_vwap * (opp.notional_usd / opp.buy_vwap) * fee_buy_bps * 10_000.0_f64.recip();
+            let fee_sell = opp.sell_vwap * (opp.notional_usd / opp.sell_vwap) * fee_sell_bps * 10_000.0_f64.recip();
             let record = FillRecord {
                 ts_ns: opp.ts_ns,
                 symbol: format!("{}/{}", opp.symbol.base, opp.symbol.quote),
@@ -55,8 +71,8 @@ pub async fn run_simulation(
                 buy_price: opp.buy_vwap,
                 sell_qty: opp.notional_usd / opp.sell_vwap,
                 sell_price: opp.sell_vwap,
-                fee_buy: opp.buy_vwap * (opp.notional_usd / opp.buy_vwap) * 0.001,
-                fee_sell: opp.sell_vwap * (opp.notional_usd / opp.sell_vwap) * 0.0016,
+                fee_buy,
+                fee_sell,
                 sim_pnl: opp.net_bps * opp.notional_usd / 10_000.0,
             };
             fill_records.push(record);

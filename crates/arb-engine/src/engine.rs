@@ -26,6 +26,8 @@ pub struct Engine {
     books: HashMap<(Venue, NormalizedSymbol), (OrderBook, Instant)>,
     ewma: SlippageEwma,
     opp_tx: Sender<Opportunity>,
+    /// Cooldown tracker: (symbol_base, buy_venue, sell_venue) -> last fire time
+    last_fire: HashMap<(String, Venue, Venue), Instant>,
 }
 
 impl Engine {
@@ -35,6 +37,7 @@ impl Engine {
             ewma: SlippageEwma::new(cfg.slippage_alpha),
             cfg,
             opp_tx,
+            last_fire: HashMap::new(),
         }
     }
 
@@ -61,14 +64,21 @@ impl Engine {
         let strategies = self.cfg.strategies.clone();
         let directions = all_directions(&self.cfg.enabled_venues);
         let book_max_age = Duration::from_secs(5);
+        let cooldown = Duration::from_millis(50); // 50ms cooldown per sym+dir — kills duplicates, keeps real opps
 
         for sym_map in &self.cfg.symbol_maps {
-            let Some(normalized) = sym_map.values().next() else { continue; };
-            if normalized != updated_sym { continue; }
+            // Check if this symbol map contains the updated symbol
+            if !sym_map.values().any(|s| s == updated_sym) { continue; }
             
             for &(buy_v, sell_v) in &directions {
                 let Some(buy_sym) = sym_map.get(&buy_v) else { continue; };
                 let Some(sell_sym) = sym_map.get(&sell_v) else { continue; };
+                
+                // COOLDOWN: skip if fired for this sym/dir recently
+                let cooldown_key = (buy_sym.base.clone(), buy_v, sell_v);
+                if let Some(last) = self.last_fire.get(&cooldown_key) {
+                    if last.elapsed() < cooldown { continue; }
+                }
                 
                 // Staleness check: skip if either book doesn't exist or is stale
                 let buy_fresh = self.books.get(&(buy_v, buy_sym.clone()))
@@ -87,6 +97,7 @@ impl Engine {
                         self.cfg.notional_usd, self.cfg.usd_usdt_basis_bps, threshold,
                     ) {
                         if self.cfg.mode == BuildMode::Paper || self.cfg.mode == BuildMode::Observe {
+                            self.last_fire.insert(cooldown_key.clone(), Instant::now());
                             let _ = self.opp_tx.send_async(opp).await;
                         }
                     }
